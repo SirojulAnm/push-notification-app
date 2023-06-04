@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import NotificationSender from "./NotificationSender";
+import { messaging } from "./firebase";
+import toast, { Toaster } from 'react-hot-toast';
+import { onMessage } from "firebase/messaging";
 
 function App() {
+
+  onMessage(messaging, (payload) => {
+    console.log("Received notification:", payload);
+    toast.success(payload.notification.body)
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React Firebase Cloud Messaging</h1>
+      <NotificationSender />
+      <Toaster />
     </div>
   );
 }
